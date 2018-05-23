@@ -11,7 +11,7 @@ public:
 		semph = new sem_t();
 		sem_init(semph, 0, 0);
 		#endif
-		printf("%s\n", strerror(errno) );
+		printf("sem init failed:%s\n", strerror(errno) );
 	};
 	~sem(){
 		sem_close(semph);
