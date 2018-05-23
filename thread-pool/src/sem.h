@@ -5,7 +5,11 @@
 class sem {
 public:
 	sem(){
+		#ifdef __APPLE__
 		semph =  sem_open("test",O_CREAT, 0644,0);
+		#elif __linux__
+
+		#endif
 		printf("%s\n", strerror(errno) );
 	};
 	~sem(){
