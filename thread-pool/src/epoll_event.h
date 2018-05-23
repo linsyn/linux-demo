@@ -1,10 +1,10 @@
 #ifndef __LINUX_EPOLL_EVENT_HEADER__
 #define __LINUX_EPOLL_EVENT_HEADER__
 
-struct epoll_event_s
+struct cus_epoll_event
 {
 	int sock_fd;
-	int int (*event_cb)(void *);
+	int (*event_cb)(void *);
 };
 
 void init_epoll_context();
