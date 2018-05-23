@@ -8,7 +8,8 @@ public:
 		#ifdef __APPLE__
 		semph =  sem_open("test",O_CREAT, 0644,0);
 		#elif __linux__
-
+		semph = new sem_t();
+		sem_init(semph, 0, 0);
 		#endif
 		printf("%s\n", strerror(errno) );
 	};

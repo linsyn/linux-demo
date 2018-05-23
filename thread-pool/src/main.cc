@@ -6,7 +6,7 @@
 #include "utils.h"
 #include "poll_events.h"
 #include "thread_pool.h"
-
+#include "epoll_event.h"
 
 
 int on_data_connect(void *pdata);
@@ -21,7 +21,11 @@ int on_client_connect(void *pdata){
 	if (client_fd > 0)
 	{
 		printf("client addr(%s) port(%d) connected\n", inet_ntoa(client_sock.sin_addr), ntohs(client_sock.sin_port));
+	#ifdef _APPLE	
 		add_poll_event(client_fd, on_data_connect);
+	#elif __linux__
+		add_epoll_event(client_fd, on_data_connect);
+	#endif
 	}
 	return 0;
 }
@@ -40,8 +44,14 @@ int main(int argc, char *argv[]) {
 	int fd = start_listen(8899);
 	if (fd > 0) {
 		thread_pool<int> *p_pool = new thread_pool<int>(1,1);
+	#ifdef _APPLE
 		add_poll_event(fd, on_client_connect);
 		process_poll_event();
+	#elif __linux__
+		init_epoll_context();
+		add_epoll_event(fd, on_client_connect);
+		process_epoll_event();
+	#endif
 	}
 	return 1;
 }

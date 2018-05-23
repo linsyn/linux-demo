@@ -1,5 +1,5 @@
 #include <sys/epoll.h>
-
+#include <string.h>
 #include "epoll_event.h"
 #define EPOLL_EVENTS_MAX_NUM 64
 int s_epoll_fd = -1;
@@ -32,7 +32,7 @@ void process_epoll_event(){
 					cus_epoll_event *p_ev = (cus_epoll_event *)(events[i].data.ptr);
 					if (p_ev) {
 						if (p_ev->event_cb) {
-							event_cb->event_cb(&p_ev->sock_fd);
+							p_ev->event_cb(&p_ev->sock_fd);
 						}
 					}
 				}
