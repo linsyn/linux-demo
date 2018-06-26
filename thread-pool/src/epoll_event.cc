@@ -1,3 +1,4 @@
+#ifdef __linux
 #include <sys/epoll.h>
 #include <string.h>
 #include "epoll_event.h"
@@ -40,3 +41,4 @@ void process_epoll_event(){
 		}
 	}
 }
+#endif
